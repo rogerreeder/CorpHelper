@@ -14,12 +14,17 @@ namespace CorpHelper
 {
     public partial class frmMain : Form
     {
-        public bool PreventSleep { get; set; }
+        public bool EnablePreventSleep { get; set; }
+        public int PreventSleepInterval { get; set; }
+        public bool InTaskBar { get; set; }
         public frmMain()
         {
             InitializeComponent();
-            PopulateSleepPreventionInterval(59000);
-            HandlePreventSleep(false);
+            EnablePreventSleep = Properties.Settings.Default.EnableSleepPrevention;
+            PreventSleepInterval = Properties.Settings.Default.SleepPreventionInterval;
+            InTaskBar = Properties.Settings.Default.InTaskBar;
+            PopulateSleepPreventionInterval(PreventSleepInterval);
+            HandlePreventSleep(EnablePreventSleep);
 
         }
         private void PopulateSleepPreventionInterval(int DefaultInterval = 59000)
@@ -107,13 +112,18 @@ namespace CorpHelper
 
         private void cmMain_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            switch (e.ClickedItem.Name)
+            switch (e.ClickedItem.Name.ToLower())
             {
-                case "menuItemExit":
+                case "menuitemopen":
+                    Show();
+                    this.WindowState = FormWindowState.Normal;
+                    notifyIconController.Visible = false;
+                    break;
+                case "menuitemexit":
                     Application.Exit();
                     break;
-                case "menuItemToggleSleep":
-                    HandlePreventSleep(!PreventSleep);
+                case "menuitemtogglesleep":
+                    HandlePreventSleep(!EnablePreventSleep);
                     break;
             }
             cmMain.Visible = false;
@@ -135,9 +145,10 @@ namespace CorpHelper
         }
         private void HandlePreventSleep(bool flag)
         {
-            if(PreventSleep == flag) return;
+            if(EnablePreventSleep == flag && tmrPreventSleep.Enabled == flag) return;
             UpdateStatus($"Prevent Sleep was {(flag ? "Enabled" : "Disabled")}.");
-            PreventSleep = flag;
+            EnablePreventSleep = flag;
+            Properties.Settings.Default.EnableSleepPrevention = flag;
             if(this.chkbxSleepPrevention.Checked != flag) this.chkbxSleepPrevention.Checked = flag;
             tmrPreventSleep.Enabled = flag;
             notifyIconController.ShowBalloonTip(5000, "Sleep Preventer Set", $"Sleep Preventer: {(flag ? "Enabled" : "Disabled")}", ToolTipIcon.Info);
@@ -145,7 +156,7 @@ namespace CorpHelper
 
         private void tmrPreventSleep_Tick(object sender, EventArgs e)
         {
-            if (PreventSleep) PreventFromSleep();
+            if (EnablePreventSleep) PreventFromSleep();
         }
         private void UpdateStatus(string text)
         {
@@ -162,7 +173,23 @@ namespace CorpHelper
             var comboBox = (ComboBox)sender;
             var interval = (int) ((DictionaryEntry)(comboBox.Items[comboBox.SelectedIndex])).Value;
             tmrPreventSleep.Interval = interval;
+            Properties.Settings.Default.SleepPreventionInterval = interval;
             UpdateStatus($"Interval set to {interval.ToString()} ms.");
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.InTaskBar = WindowState == FormWindowState.Minimized;
+            Properties.Settings.Default.Save();
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            if(InTaskBar)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
+            HandlePreventSleep(EnablePreventSleep);
         }
     }
 }

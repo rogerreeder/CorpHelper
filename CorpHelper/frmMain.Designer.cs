@@ -38,6 +38,9 @@
             this.tmrPreventSleep = new System.Windows.Forms.Timer(this.components);
             this.txtStatus = new System.Windows.Forms.TextBox();
             this.cbSleepPreventionInterval = new System.Windows.Forms.ComboBox();
+            this.menuitemOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.cmMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,10 +69,13 @@
             // cmMain
             // 
             this.cmMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemExit,
-            this.menuItemToggleSleep});
+            this.menuitemOpen,
+            this.toolStripSeparator2,
+            this.menuItemToggleSleep,
+            this.toolStripSeparator1,
+            this.menuItemExit});
             this.cmMain.Name = "cmMain";
-            this.cmMain.Size = new System.Drawing.Size(195, 48);
+            this.cmMain.Size = new System.Drawing.Size(195, 104);
             this.cmMain.Text = "Corporate Helper Menu";
             this.cmMain.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmMain_ItemClicked);
             // 
@@ -117,6 +123,22 @@
             this.cbSleepPreventionInterval.SelectedIndexChanged += new System.EventHandler(this.cbSleepPreventionInterval_SelectedIndexChanged);
             this.cbSleepPreventionInterval.SelectedValueChanged += new System.EventHandler(this.cbSleepPreventionInterval_SelectedValueChanged);
             // 
+            // menuitemOpen
+            // 
+            this.menuitemOpen.Name = "menuitemOpen";
+            this.menuitemOpen.Size = new System.Drawing.Size(194, 22);
+            this.menuitemOpen.Text = "Open";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(191, 6);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -128,6 +150,8 @@
             this.MinimumSize = new System.Drawing.Size(500, 310);
             this.Name = "frmMain";
             this.Text = "Corporate Helper";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.cmMain.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -145,6 +169,9 @@
         private System.Windows.Forms.TextBox txtStatus;
         private System.Windows.Forms.ToolStripMenuItem menuItemToggleSleep;
         private System.Windows.Forms.ComboBox cbSleepPreventionInterval;
+        private System.Windows.Forms.ToolStripMenuItem menuitemOpen;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
