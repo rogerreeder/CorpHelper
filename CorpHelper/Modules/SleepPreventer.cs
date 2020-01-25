@@ -12,7 +12,7 @@ namespace CorpHelper.Modules
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
         [FlagsAttribute]
-        public enum EXECUTION_STATE : uint
+        private enum EXECUTION_STATE : uint
         {
             ES_AWAYMODE_REQUIRED = 0x00000040,
             ES_CONTINUOUS = 0x80000000,
