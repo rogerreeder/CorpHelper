@@ -34,18 +34,20 @@
             this.notifyIconController = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmMain = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuItemToggleSleep = new System.Windows.Forms.ToolStripMenuItem();
             this.tmrPreventSleep = new System.Windows.Forms.Timer(this.components);
             this.txtStatus = new System.Windows.Forms.TextBox();
-            this.menuItemToggleSleep = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbSleepPreventionInterval = new System.Windows.Forms.ComboBox();
             this.cmMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // chkbxSleepPrevention
             // 
+            this.chkbxSleepPrevention.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkbxSleepPrevention.AutoSize = true;
             this.chkbxSleepPrevention.Location = new System.Drawing.Point(12, 12);
             this.chkbxSleepPrevention.Name = "chkbxSleepPrevention";
-            this.chkbxSleepPrevention.Size = new System.Drawing.Size(143, 17);
+            this.chkbxSleepPrevention.Size = new System.Drawing.Size(134, 23);
             this.chkbxSleepPrevention.TabIndex = 0;
             this.chkbxSleepPrevention.Text = "Enable Sleep Prevention";
             this.chkbxSleepPrevention.UseVisualStyleBackColor = true;
@@ -78,6 +80,12 @@
             this.menuItemExit.Text = "Exit";
             this.menuItemExit.ToolTipText = "Exit Application";
             // 
+            // menuItemToggleSleep
+            // 
+            this.menuItemToggleSleep.Name = "menuItemToggleSleep";
+            this.menuItemToggleSleep.Size = new System.Drawing.Size(194, 22);
+            this.menuItemToggleSleep.Text = "Toggle Sleep Preventer";
+            // 
             // tmrPreventSleep
             // 
             this.tmrPreventSleep.Interval = 30000;
@@ -97,17 +105,24 @@
             this.txtStatus.Size = new System.Drawing.Size(527, 139);
             this.txtStatus.TabIndex = 1;
             // 
-            // menuItemToggleSleep
+            // cbSleepPreventionInterval
             // 
-            this.menuItemToggleSleep.Name = "menuItemToggleSleep";
-            this.menuItemToggleSleep.Size = new System.Drawing.Size(194, 22);
-            this.menuItemToggleSleep.Text = "Toggle Sleep Preventer";
+            this.cbSleepPreventionInterval.DisplayMember = "Key";
+            this.cbSleepPreventionInterval.FormattingEnabled = true;
+            this.cbSleepPreventionInterval.Location = new System.Drawing.Point(152, 14);
+            this.cbSleepPreventionInterval.Name = "cbSleepPreventionInterval";
+            this.cbSleepPreventionInterval.Size = new System.Drawing.Size(115, 21);
+            this.cbSleepPreventionInterval.TabIndex = 2;
+            this.cbSleepPreventionInterval.ValueMember = "Value";
+            this.cbSleepPreventionInterval.SelectedIndexChanged += new System.EventHandler(this.cbSleepPreventionInterval_SelectedIndexChanged);
+            this.cbSleepPreventionInterval.SelectedValueChanged += new System.EventHandler(this.cbSleepPreventionInterval_SelectedValueChanged);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(551, 271);
+            this.Controls.Add(this.cbSleepPreventionInterval);
             this.Controls.Add(this.txtStatus);
             this.Controls.Add(this.chkbxSleepPrevention);
             this.MinimumSize = new System.Drawing.Size(500, 310);
@@ -129,6 +144,7 @@
         private System.Windows.Forms.Timer tmrPreventSleep;
         private System.Windows.Forms.TextBox txtStatus;
         private System.Windows.Forms.ToolStripMenuItem menuItemToggleSleep;
+        private System.Windows.Forms.ComboBox cbSleepPreventionInterval;
     }
 }
 
