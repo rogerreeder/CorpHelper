@@ -33,14 +33,15 @@
             this.chkbxSleepPrevention = new System.Windows.Forms.CheckBox();
             this.notifyIconController = new System.Windows.Forms.NotifyIcon(this.components);
             this.cmMain = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.menuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuItemToggleSleep = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tmrPreventSleep = new System.Windows.Forms.Timer(this.components);
             this.txtStatus = new System.Windows.Forms.TextBox();
             this.cbSleepPreventionInterval = new System.Windows.Forms.ComboBox();
-            this.menuitemOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.chRunOnStartup = new System.Windows.Forms.CheckBox();
             this.cmMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,10 +49,10 @@
             // 
             this.chkbxSleepPrevention.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkbxSleepPrevention.AutoSize = true;
-            this.chkbxSleepPrevention.Location = new System.Drawing.Point(12, 12);
+            this.chkbxSleepPrevention.Location = new System.Drawing.Point(12, 35);
             this.chkbxSleepPrevention.Name = "chkbxSleepPrevention";
             this.chkbxSleepPrevention.Size = new System.Drawing.Size(134, 23);
-            this.chkbxSleepPrevention.TabIndex = 0;
+            this.chkbxSleepPrevention.TabIndex = 1;
             this.chkbxSleepPrevention.Text = "Enable Sleep Prevention";
             this.chkbxSleepPrevention.UseVisualStyleBackColor = true;
             this.chkbxSleepPrevention.CheckedChanged += new System.EventHandler(this.chkbxSleepPrevention_CheckedChanged);
@@ -75,9 +76,31 @@
             this.toolStripSeparator1,
             this.menuItemExit});
             this.cmMain.Name = "cmMain";
-            this.cmMain.Size = new System.Drawing.Size(195, 104);
+            this.cmMain.Size = new System.Drawing.Size(195, 82);
             this.cmMain.Text = "Corporate Helper Menu";
             this.cmMain.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmMain_ItemClicked);
+            // 
+            // menuitemOpen
+            // 
+            this.menuitemOpen.Name = "menuitemOpen";
+            this.menuitemOpen.Size = new System.Drawing.Size(194, 22);
+            this.menuitemOpen.Text = "Open";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(191, 6);
+            // 
+            // menuItemToggleSleep
+            // 
+            this.menuItemToggleSleep.Name = "menuItemToggleSleep";
+            this.menuItemToggleSleep.Size = new System.Drawing.Size(194, 22);
+            this.menuItemToggleSleep.Text = "Toggle Sleep Preventer";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
             // 
             // menuItemExit
             // 
@@ -85,12 +108,6 @@
             this.menuItemExit.Size = new System.Drawing.Size(194, 22);
             this.menuItemExit.Text = "Exit";
             this.menuItemExit.ToolTipText = "Exit Application";
-            // 
-            // menuItemToggleSleep
-            // 
-            this.menuItemToggleSleep.Name = "menuItemToggleSleep";
-            this.menuItemToggleSleep.Size = new System.Drawing.Size(194, 22);
-            this.menuItemToggleSleep.Text = "Toggle Sleep Preventer";
             // 
             // tmrPreventSleep
             // 
@@ -115,35 +132,31 @@
             // 
             this.cbSleepPreventionInterval.DisplayMember = "Key";
             this.cbSleepPreventionInterval.FormattingEnabled = true;
-            this.cbSleepPreventionInterval.Location = new System.Drawing.Point(152, 14);
+            this.cbSleepPreventionInterval.Location = new System.Drawing.Point(152, 37);
             this.cbSleepPreventionInterval.Name = "cbSleepPreventionInterval";
             this.cbSleepPreventionInterval.Size = new System.Drawing.Size(115, 21);
             this.cbSleepPreventionInterval.TabIndex = 2;
             this.cbSleepPreventionInterval.ValueMember = "Value";
             this.cbSleepPreventionInterval.SelectedIndexChanged += new System.EventHandler(this.cbSleepPreventionInterval_SelectedIndexChanged);
-            this.cbSleepPreventionInterval.SelectedValueChanged += new System.EventHandler(this.cbSleepPreventionInterval_SelectedValueChanged);
             // 
-            // menuitemOpen
+            // chRunOnStartup
             // 
-            this.menuitemOpen.Name = "menuitemOpen";
-            this.menuitemOpen.Size = new System.Drawing.Size(194, 22);
-            this.menuitemOpen.Text = "Open";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(191, 6);
+            this.chRunOnStartup.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chRunOnStartup.AutoSize = true;
+            this.chRunOnStartup.Location = new System.Drawing.Point(12, 12);
+            this.chRunOnStartup.Name = "chRunOnStartup";
+            this.chRunOnStartup.Size = new System.Drawing.Size(77, 23);
+            this.chRunOnStartup.TabIndex = 0;
+            this.chRunOnStartup.Text = "Run on login";
+            this.chRunOnStartup.UseVisualStyleBackColor = true;
+            this.chRunOnStartup.CheckedChanged += new System.EventHandler(this.chRunOnStartup_CheckedChanged);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(551, 271);
+            this.Controls.Add(this.chRunOnStartup);
             this.Controls.Add(this.cbSleepPreventionInterval);
             this.Controls.Add(this.txtStatus);
             this.Controls.Add(this.chkbxSleepPrevention);
@@ -172,6 +185,7 @@
         private System.Windows.Forms.ToolStripMenuItem menuitemOpen;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.CheckBox chRunOnStartup;
     }
 }
 

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using CorpHelper.Modules;
 using System.Collections;
 
+
 namespace CorpHelper
 {
     public partial class frmMain : Form
@@ -20,6 +21,7 @@ namespace CorpHelper
         public frmMain()
         {
             InitializeComponent();
+            chRunOnStartup.Checked = Properties.Settings.Default.RunOnLogin;
             EnablePreventSleep = Properties.Settings.Default.EnableSleepPrevention;
             PreventSleepInterval = Properties.Settings.Default.SleepPreventionInterval;
             InTaskBar = Properties.Settings.Default.InTaskBar;
@@ -163,19 +165,6 @@ namespace CorpHelper
             txtStatus.AppendText($"{Environment.NewLine}{DateTime.Now.ToString("HH:mm:ss.fff")}: {text}");
         }
 
-        private void cbSleepPreventionInterval_SelectedValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbSleepPreventionInterval_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var comboBox = (ComboBox)sender;
-            var interval = (int) ((DictionaryEntry)(comboBox.Items[comboBox.SelectedIndex])).Value;
-            tmrPreventSleep.Interval = interval;
-            Properties.Settings.Default.SleepPreventionInterval = interval;
-            UpdateStatus($"Interval set to {interval.ToString()} ms.");
-        }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -190,6 +179,24 @@ namespace CorpHelper
                 this.WindowState = FormWindowState.Minimized;
             }
             HandlePreventSleep(EnablePreventSleep);
+        }
+
+        private void cbSleepPreventionInterval_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+            var interval = (int) ((DictionaryEntry)(comboBox.Items[comboBox.SelectedIndex])).Value;
+            tmrPreventSleep.Interval = interval;
+            Properties.Settings.Default.SleepPreventionInterval = interval;
+            UpdateStatus($"Interval set to {interval.ToString()} ms.");
+        }
+        private void chRunOnStartup_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chRunOnStartup.Checked != Properties.Settings.Default.RunOnLogin)
+            {
+                Properties.Settings.Default.RunOnLogin = chRunOnStartup.Checked;
+                MyHelper.UpdateAutoStart(chRunOnStartup.Checked);
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }
