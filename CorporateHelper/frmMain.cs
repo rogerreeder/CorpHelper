@@ -7,17 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CorpHelper.Modules;
+using CorporateHelper.Modules;
 using System.Collections;
 
 
-namespace CorpHelper
+namespace CorporateHelper
 {
     public partial class frmMain : Form
     {
+        #region "Properties"
         public bool EnablePreventSleep { get; set; }
         public int PreventSleepInterval { get; set; }
         public bool InTaskBar { get; set; }
+        #endregion
         public frmMain()
         {
             InitializeComponent();
@@ -27,6 +29,7 @@ namespace CorpHelper
             InTaskBar = Properties.Settings.Default.InTaskBar;
             PopulateSleepPreventionInterval(PreventSleepInterval);
             HandlePreventSleep(EnablePreventSleep);
+
 
         }
         private void PopulateSleepPreventionInterval(int DefaultInterval = 59000)
@@ -86,12 +89,31 @@ namespace CorpHelper
                 if (value == DefaultInterval) cbSleepPreventionInterval.SelectedIndex = i;
             }
         }
+        private void PreventFromSleep()
+        {
+            UpdateStatus($"PreventFromSleep was called.");
+            SleepPreventer.PreventFromSleep();
+        }
+        private void HandlePreventSleep(bool flag)
+        {
+            if(EnablePreventSleep == flag && tmrPreventSleep.Enabled == flag) return;
+            UpdateStatus($"Prevent Sleep was {(flag ? "Enabled" : "Disabled")}.");
+            EnablePreventSleep = flag;
+            Properties.Settings.Default.EnableSleepPrevention = flag;
+            if(this.chkbxSleepPrevention.Checked != flag) this.chkbxSleepPrevention.Checked = flag;
+            tmrPreventSleep.Enabled = flag;
+            notifyIconController.ShowBalloonTip(5000, "Sleep Preventer Set", $"Sleep Preventer: {(flag ? "Enabled" : "Disabled")}", ToolTipIcon.Info);
+        }
+        private void UpdateStatus(string text)
+        {
+            txtStatus.AppendText($"{Environment.NewLine}{DateTime.Now.ToString("HH:mm:ss.fff")}: {text}");
+        }
+        #region "Form Events"
         private void chkbxSleepPrevention_CheckedChanged(object sender, EventArgs e)
         {
             HandlePreventSleep( this.chkbxSleepPrevention.Checked);
 
         }
-
         private void frmMain_Resize(object sender, EventArgs e)
         {
             //if the form is minimized
@@ -103,15 +125,12 @@ namespace CorpHelper
                 notifyIconController.Visible = true;
             }
         }
-
         private void notifyIconController_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             Show();
             this.WindowState = FormWindowState.Normal;
             notifyIconController.Visible = false;
         }
-
-
         private void cmMain_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             switch (e.ClickedItem.Name.ToLower())
@@ -130,7 +149,6 @@ namespace CorpHelper
             }
             cmMain.Visible = false;
         }
-
         private void notifyIconController_MouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Right)
@@ -138,49 +156,19 @@ namespace CorpHelper
                 cmMain.Visible = true;
             }
         }
-
-
-        private void PreventFromSleep()
-        {
-            UpdateStatus($"PreventFromSleep was called.");
-            SleepPreventer.PreventFromSleep();
-        }
-        private void HandlePreventSleep(bool flag)
-        {
-            if(EnablePreventSleep == flag && tmrPreventSleep.Enabled == flag) return;
-            UpdateStatus($"Prevent Sleep was {(flag ? "Enabled" : "Disabled")}.");
-            EnablePreventSleep = flag;
-            Properties.Settings.Default.EnableSleepPrevention = flag;
-            if(this.chkbxSleepPrevention.Checked != flag) this.chkbxSleepPrevention.Checked = flag;
-            tmrPreventSleep.Enabled = flag;
-            notifyIconController.ShowBalloonTip(5000, "Sleep Preventer Set", $"Sleep Preventer: {(flag ? "Enabled" : "Disabled")}", ToolTipIcon.Info);
-        }
-
         private void tmrPreventSleep_Tick(object sender, EventArgs e)
         {
             if (EnablePreventSleep) PreventFromSleep();
         }
-        private void UpdateStatus(string text)
-        {
-            txtStatus.AppendText($"{Environment.NewLine}{DateTime.Now.ToString("HH:mm:ss.fff")}: {text}");
-        }
-
-
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.InTaskBar = WindowState == FormWindowState.Minimized;
             Properties.Settings.Default.Save();
         }
-
         private void frmMain_Load(object sender, EventArgs e)
         {
-            if(InTaskBar)
-            {
-                this.WindowState = FormWindowState.Minimized;
-            }
             HandlePreventSleep(EnablePreventSleep);
         }
-
         private void cbSleepPreventionInterval_SelectedIndexChanged(object sender, EventArgs e)
         {
             var comboBox = (ComboBox)sender;
@@ -196,6 +184,16 @@ namespace CorpHelper
                 Properties.Settings.Default.RunOnLogin = chRunOnStartup.Checked;
                 MyHelper.UpdateAutoStart(chRunOnStartup.Checked);
                 Properties.Settings.Default.Save();
+            }
+        }
+        #endregion
+
+        private void frmMain_Shown(object sender, EventArgs e)
+        {
+            if(InTaskBar && this.WindowState != FormWindowState.Minimized)
+            {
+                Hide();
+                notifyIconController.Visible = true;
             }
         }
     }

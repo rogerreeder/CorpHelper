@@ -1,4 +1,4 @@
-﻿namespace CorpHelper
+﻿namespace CorporateHelper
 {
     partial class frmMain
     {
@@ -165,6 +165,7 @@
             this.Text = "Corporate Helper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
+            this.Shown += new System.EventHandler(this.frmMain_Shown);
             this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.cmMain.ResumeLayout(false);
             this.ResumeLayout(false);
